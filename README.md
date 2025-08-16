@@ -5,7 +5,7 @@ A web application that allows users to order pet products and services, redeem d
 - [Video Demo]: Update soon
 
 - ## 📸 Screenshot  
-Update soon
+- Update soon
 
 ## ✨ Feature
 - User registration and Google login with NextAuth (JWT)
