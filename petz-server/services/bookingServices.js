@@ -158,14 +158,6 @@ exports.createBooking = async (
       },
     });
 
-    const maxBookingsPerDay = 5;
-    if (bookingsToday >= maxBookingsPerDay) {
-      return {
-        success: false,
-        message: "Bạn đã đạt tối đa số lần đặt lịch trong ngày.",
-      };
-    }
-
     const user = await User.findById(userId);
 
     if (!user) {
@@ -247,27 +239,6 @@ exports.createBookingWithMomo = async (
   paymentMethod
 ) => {
   try {
-    const today = new Date();
-    const startOfDay = new Date(today.toISOString().split("T")[0]); // 00:00:00 UTC
-    const endOfDay = new Date(startOfDay);
-    endOfDay.setUTCDate(startOfDay.getUTCDate() + 1); // 00:00:00 ngày mai UTC
-
-    const bookingsToday = await Booking.countDocuments({
-      userId: userId,
-      createdAt: {
-        $gte: startOfDay,
-        $lt: endOfDay,
-      },
-    });
-
-    const maxBookingsPerDay = 900;
-    if (bookingsToday >= maxBookingsPerDay) {
-      return {
-        success: false,
-        message: "Bạn đã đạt tối đa số lần đặt lịch trong ngày.",
-      };
-    }
-
     const user = await User.findById(userId);
 
     if (!user) {

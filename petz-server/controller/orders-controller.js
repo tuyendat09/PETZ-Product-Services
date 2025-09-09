@@ -47,39 +47,12 @@ exports.insertOrders = async (req, res) => {
       orderStatus,
     } = req.body;
 
-    if (userId == null) {
-      throw new Error("Bạn cần đăng nhập để thực hiện hành động này.");
-    }
-
     const user = await User.findById(userId);
-
-    if (!user) {
-      throw new Error("Không tìm thấy người dùng");
-    }
-
-    if (user.bannedUser === true) {
-      return res.status(502).json({
-        message: "Tài khoản của bạn đã bị khóa, không thể thực hiện.",
-      });
-    }
 
     const today = new Date();
     const startOfDay = new Date(today.toISOString().split("T")[0]); // 00:00:00 UTC
     const endOfDay = new Date(startOfDay);
     endOfDay.setUTCDate(startOfDay.getUTCDate() + 1); // 00:00:00 ngày mai UTC
-
-    const ordersToday = await Order.countDocuments({
-      userId: userId,
-      createdAt: {
-        $gte: startOfDay,
-        $lt: endOfDay,
-      },
-    });
-
-    const maxOrdersPerDay = 5;
-    if (ordersToday >= maxOrdersPerDay) {
-      throw new Error("Bạn đã đạt tối đa đơn hàng có thể đặt trong ngày.");
-    }
 
     const OrderModel = new Order({
       customerName,

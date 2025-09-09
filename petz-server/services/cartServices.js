@@ -76,6 +76,10 @@ exports.handleCartItem = async (
   userId
 ) => {
   // Kiểm tra sản phẩm có trùng productId và productOption không
+  if (!cartId) {
+    return null;
+  }
+  
   const existingItem = await checkExistItem(cartId, productOption, productId);
   // Nếu không trùng hoặc productOption khác, thêm sản phẩm mới
   if (!existingItem) {

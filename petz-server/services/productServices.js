@@ -148,12 +148,8 @@ function buildNonLowStockAggregatePipeline(
         productImages: { $first: "$productImages" },
       },
     });
-    // Ghép thêm pipeline sort
     pipeline = pipeline.concat(buildSortPipeline(sortBy, skip, limit));
   } else {
-    // nếu sortBy không phải price, ta vẫn có thể dừng ở .find()
-    // tuỳ theo bạn muốn unify 1 flow hay tách ra.
-    // Ở đây mình unify hết sang aggregate pipeline luôn:
     pipeline = pipeline.concat([
       { $unwind: "$productOption" },
       {

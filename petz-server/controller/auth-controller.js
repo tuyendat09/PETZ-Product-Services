@@ -117,8 +117,9 @@ exports.login = async (req, res) => {
     const token = authService.generateToken(
       existingUser._id,
       process.env.JWT_SECRET,
-      "5s"
+      "3h"
     );
+
     const refreshToken = authService.generateRefreshToken(
       existingUser._id,
       process.env.JWT_REFRESH_SECRET,
