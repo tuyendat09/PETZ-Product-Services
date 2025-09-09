@@ -8,6 +8,7 @@ import { message } from "antd";
 import { animatePageOut } from "@/utils/animation";
 import { useRouter } from "next/navigation";
 import { errorModal } from "@/utils/callModalANTD";
+import { cartAction } from "@/libs/features/cart/cart";
 interface ProductCardSelectWeightProps {
   Product: Product;
 }
@@ -82,8 +83,8 @@ export default function ProductCardCartButton({
     }
 
     if (authStatus === "unauthenticated") {
-      addToCart(cartItem);
-      errorModal();
+      dispatch(cartAction.addToCart(cartItem));
+      success();
     }
   }
 
@@ -100,10 +101,10 @@ export default function ProductCardCartButton({
   }, [newCart]);
 
   return (
-    <div className="group absolute right-1 top-1 text-white lg:right-2 lg:top-2">
+    <div className="group absolute right-2 top-1 text-white lg:right-2 lg:top-2 2xl:right-6">
       <button
         onClick={handleAddToCart}
-        className="w-fit rounded-full bg-white p-1 text-black transition delay-75 duration-300 group-hover:bg-gray-100 lg:p-3"
+        className="w-fit rounded-full bg-white p-1 text-black transition delay-75 duration-300 group-hover:bg-gray-100 md:p-3 lg:p-3"
       >
         <Icon className="size-4 lg:size-5" icon="icon-park-outline:mall-bag" />
       </button>

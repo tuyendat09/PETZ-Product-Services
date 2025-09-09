@@ -86,12 +86,12 @@ const CartPage = () => {
   }, 0);
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-[100px] py-10">
+    <div className="flex min-h-screen flex-col items-center py-10">
       <div className="w-full rounded-lg p-8">
-        <div className="flex flex-row items-center justify-between">
-          <div className="flex w-[60%] flex-col justify-end px-[50px] text-center">
+        <div>
+          <div className="flex w-full flex-col justify-end px-[50px] text-center">
             <h2>Cửa hàng thức ăn thú cưng</h2>
-            <h1 className="mt-[20px] text-[50px] font-[500] leading-[60px] text-black">
+            <h1 className="mt-[20px] text-[24px] font-[500] leading-[60px] text-black lg:text-[50px]">
               Cửa hàng thú cưng cho Những Người Bạn Lông Xù
             </h1>
             <div className="mt-[30px] flex justify-center">
@@ -108,9 +108,6 @@ const CartPage = () => {
             <div className="mt-[70px] flex justify-center">
               <Image src={cartImg2} width={250} height={400} alt="" />
             </div>
-          </div>
-          <div className="w-[40%]">
-            <Image src={cartImg} width={600} height={400} alt="" />
           </div>
         </div>
         <div className="mt-[20px] flex flex-row justify-between">
@@ -133,57 +130,58 @@ const CartPage = () => {
               </button>
             </div>
             <div>
-              <table className="w-full">
-                <thead>
-                  <tr>
-                    <th className="text-left">Sản phẩm</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Tổng phụ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {itemsToDisplay?.map((item: any) => (
-                    <CartItem
-                      authenticatedCartId={authenticatedCartId}
-                      key={item.productId}
-                      cartItem={item as any}
-                    />
-                  ))}
-                  <tr>
-                    <td className="border-b-0"></td>
-                    <td className="border-b-0"></td>
-                    <td colSpan={2}>
-                      <div className="flex flex-row items-center justify-between">
-                        <h4 className="font-[500]">Thành tiền:</h4>
-                        <h3 className="text-[20px] font-[500]">
-                          {formatMoney(totalPrice)}
-                        </h3>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border-b-0"></td>
-                    <td className="border-b-0"></td>
-                  </tr>
-                  <tr></tr>
-                  <tr>
-                    <td className="border-b-0"></td>
-                    <td className="border-b-0"></td>
-                    <td
-                      className="border-b-0 text-[15px] text-gray-800"
-                      colSpan={2}
-                    >
-                      <NormalTransitionLink
-                        className="w-full rounded-[20px] bg-primary py-[12px] text-center font-bold text-white"
-                        href="/cart/place-order"
+              <div className="overflow-x-auto">
+                <table className="w-full table-auto">
+                  <thead>
+                    <tr>
+                      <th className="text-left">Sản phẩm</th>
+                      <th>Giá</th>
+                      <th>Số lượng</th>
+                      <th>Tổng phụ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {itemsToDisplay?.map((item: any) => (
+                      <CartItem
+                        authenticatedCartId={authenticatedCartId}
+                        key={item.productId}
+                        cartItem={item as any}
+                      />
+                    ))}
+                    <tr>
+                      <td className="border-b-0"></td>
+                      <td className="border-b-0"></td>
+                      <td colSpan={2}>
+                        <div className="flex flex-row items-center justify-between">
+                          <h4 className="font-[500]">Thành tiền:</h4>
+                          <h3 className="text-[20px] font-[500]">
+                            {formatMoney(totalPrice)}
+                          </h3>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="border-b-0"></td>
+                      <td className="border-b-0"></td>
+                    </tr>
+                    <tr>
+                      <td className="border-b-0"></td>
+                      <td className="border-b-0"></td>
+                      <td
+                        className="border-b-0 text-[15px] text-gray-800"
+                        colSpan={2}
                       >
-                        <button>THANH TOÁN</button>
-                      </NormalTransitionLink>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                        <NormalTransitionLink
+                          className="w-full rounded-[20px] bg-primary py-[12px] text-center font-bold text-white"
+                          href="/cart/place-order"
+                        >
+                          <button>THANH TOÁN</button>
+                        </NormalTransitionLink>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </>
         ) : (

@@ -21,6 +21,7 @@ import { useInsertOrderMutation } from "@/libs/features/services/order";
 import { errorModal, successModal } from "@/utils/callModalANTD";
 import { useRouter } from "next/navigation";
 import { useHandlePaymentMomoMutation } from "@/libs/features/services/payment";
+import { cartAction } from "@/libs/features/cart/cart";
 interface CartItem {
   productId: string;
   productName: string;
@@ -135,16 +136,21 @@ export const Index = () => {
 
   useEffect(() => {
     if (paymentMethod === "COD" && insertResponse) {
-      sessionUpdate({
-        ...session,
-        user: {
-          ...session?.data?.user,
-          userCart: {
-            _id: session?.data?.user.userCart._id,
-            cartItems: [],
+      if (authStatus == "authenticated") {
+        sessionUpdate({
+          ...session,
+          user: {
+            ...session?.data?.user,
+            userCart: {
+              _id: session?.data?.user.userCart._id,
+              cartItems: [],
+            },
           },
-        },
-      });
+        });
+      } else {
+        dispatch(cartAction.clearCart());
+      }
+
       successModal({ content: "Đặt hàng thành công về trang chủ sau 3s" });
 
       setTimeout(() => {
@@ -222,10 +228,13 @@ export const Index = () => {
           }}
         >
           {({ handleChange, handleSubmit, setFieldValue }) => (
-            <Form onSubmit={handleSubmit} className="flex flex-row gap-[20px]">
-              <div className="w-[62%]">
+            <Form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-[20px] lg:flex-row"
+            >
+              <div className="w-full lg:w-[62%]">
                 <div className="mt-[30px] flex flex-row gap-[30px]">
-                  <div className="w-[60%]">
+                  <div className="w-full lg:w-[60%]">
                     <h1 className="mb-[20px] text-[24px] font-[600]">
                       Địa chỉ giao hàng
                     </h1>
@@ -321,17 +330,6 @@ export const Index = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="w-[40%]">
-                    <h1 className="text-[24px] font-[600]">
-                      Phương thức giao hàng
-                    </h1>
-                    <div className="mt-[20px] flex flex-row items-center gap-[15px] rounded-br-[30px] rounded-tl-[30px] border border-gray-200 px-[25px] pb-[30px] pt-[25px]">
-                      <button className="rounded-[50%] bg-black p-[2px]">
-                        <Icon icon="ic:round-check" color="white" width={13} />
-                      </button>
-                      <p className="font-[500]">Chuyển phát nhanh</p>
-                    </div>
-                  </div>
                 </div>
                 <div>
                   <div className="mt-[40px]">
@@ -362,34 +360,22 @@ export const Index = () => {
                     </div>
                   </div>
 
-                  <div className="mt-[30px]">
-                    <button
-                      type="button"
-                      onClick={() => setIsDisplay(!isDisplay)}
-                      className="flex items-center justify-center rounded-[25px] border border-black bg-black px-[45px] py-[10px] text-[15px] tracking-[0.8px] text-white transition duration-200 ease-in-out hover:bg-white hover:text-black"
-                    >
-                      HIỂN THỊ SẢN PHẨM
-                    </button>
-                  </div>
-
-                  <div
-                    className={`${isDisplay ? "block" : "hidden"} mt-[30px]`}
-                  >
+                  <div className="mt-8 min-w-full">
                     <h1 className="text-[20px] font-[500]">Giỏ hàng của bạn</h1>
-                    <table className="cart-table">
-                      <thead>
-                        <tr>
-                          <th>TÊN SẢN PHẨM</th>
-                          <th>GIÁ</th>
-                          <th>SỐ LƯỢNG</th>
-                          <th>TỔNG TIỀN</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {itemsToDisplay.map((item: any, i: number) => {
-                          return (
+                    <div className="min-w-full overflow-x-auto">
+                      <table className="cart-table w-full table-auto">
+                        <thead>
+                          <tr>
+                            <th className="px-4 py-2"> SẢN PHẨM</th>
+                            <th className="px-4 py-2">GIÁ</th>
+                            <th className="px-4 py-2">SỐ LƯỢNG</th>
+                            <th className="px-4 py-2">TỔNG TIỀN</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {itemsToDisplay.map((item: any, i: number) => (
                             <tr key={i}>
-                              <td>
+                              <td className="px-4 py-2">
                                 <div className="flex flex-row items-center gap-[10px]">
                                   <Image
                                     unoptimized
@@ -398,17 +384,14 @@ export const Index = () => {
                                     height={60}
                                     alt=""
                                   />
-                                  <div>
+                                  <div className="hidden md:block">
                                     <h1 className="text-[17px]">
                                       {item?.productName}
                                     </h1>
-                                    <p className="text-[15px]">
-                                      {item?.productOption}
-                                    </p>
                                   </div>
                                 </div>
                               </td>
-                              <td className="text-[17px]">
+                              <td className="px-4 py-2 text-[17px]">
                                 {item?.salePercent > 0
                                   ? formatCurrency(
                                       item?.productPrice -
@@ -418,12 +401,12 @@ export const Index = () => {
                                     )
                                   : formatCurrency(item?.productPrice)}
                               </td>
-                              <td>
+                              <td className="px-4 py-2">
                                 <span className="rounded-br-[15px] rounded-tl-[15px] border border-gray-200 bg-gray-100 px-[40px] py-[10px] text-[17px]">
                                   {item?.productQuantity}
                                 </span>
                               </td>
-                              <td className="text-[18px] font-[500]">
+                              <td className="px-4 py-2 text-[18px] font-[500]">
                                 {item.salePercent > 0
                                   ? formatCurrency(
                                       (item?.productPrice -
@@ -438,14 +421,14 @@ export const Index = () => {
                                     )}
                               </td>
                             </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="h-full w-[38%] bg-gray-50">
+              <div className="h-full w-full bg-gray-50 lg:w-[38%]">
                 <div>
                   <div className="p-[22px]">
                     <h1 className="text-[24px]">Tóm tắt đơn hàng</h1>

@@ -20,11 +20,11 @@ export default function ProductList() {
 
   return (
     <div className="flex-grow">
-      <div className="flex">
+      <div className="flex flex-col md:flex-row">
         <ProductSearch />
         <ProductSort />
       </div>
-      <div className="grid grid-cols-3 gap-4 2xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
         {isLoading &&
           Array.from({ length: SKELETON_NUMBER }).map((_, index) => (
             <ProductListSkeleton key={index} />

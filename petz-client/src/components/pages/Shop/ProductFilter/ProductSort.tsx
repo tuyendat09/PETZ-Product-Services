@@ -14,11 +14,10 @@ export default function ProductSort() {
 
   return (
     <div className="mb-8 ml-auto flex w-1/4 min-w-[400px] items-center gap-2">
-      <p>Sắp xếp:</p>
       <Select
         aria-label="Sắp xếp theo"
         onSelectionChange={handleSortProduct}
-        className="max-w-xs"
+        className="md:ml-4 md:max-w-xs lg:ml-auto"
         items={sortType}
         placeholder="Sắp xếp theo"
       >

@@ -6,12 +6,10 @@ const nextConfig = {
   swcMinify: true,
   ignoreBuildErrors: false,
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "final-asm.s3.ap-southeast-2.amazonaws.com",
-        pathname: "/**",
-      },
+    domains: [
+      "final-asm.s3.ap-southeast-2.amazonaws.com",
+      "maxbone.com",
+      "www.maxbone.com" 
     ],
   },
 };

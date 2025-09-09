@@ -16,7 +16,7 @@ function NavigateName({
   const path = usePathname();
   const [pathName, setPathname] = useState("");
 
- useEffect(() => {
+  useEffect(() => {
     // Chuyển đổi đường dẫn thành chuỗi và so sánh trực tiếp với từng case
     switch (path) {
       case "/":
@@ -49,7 +49,7 @@ function NavigateName({
       case "/user/change-voucher":
         setPathname("Đổi voucher");
         break;
-      case path.startsWith("/shop/") && path: 
+      case path.startsWith("/shop/") && path:
         setPathname("Cửa hàng");
         break;
       default:
@@ -57,7 +57,6 @@ function NavigateName({
         break;
     }
   }, [path]);
-
 
   return (
     <motion.button
@@ -74,11 +73,11 @@ function NavigateName({
   );
 }
 
-interface NavigateBarProps {
+interface NavigateBarUserProps {
   onTop?: boolean;
 }
 
-export default function NavigateBar({ onTop }: NavigateBarProps) {
+export default function NavigateBarUser({ onTop }: NavigateBarUserProps) {
   const [isHidden, setIsHidden] = useState<boolean>(false);
 
   function handleToggleNavbar() {
@@ -103,7 +102,7 @@ export default function NavigateBar({ onTop }: NavigateBarProps) {
     <motion.div
       initial={false}
       animate={{
-        width: isHidden ? 140 : 340,
+        width: isHidden ? 140 : 460,
       }}
       transition={{
         type: "spring",
@@ -111,7 +110,7 @@ export default function NavigateBar({ onTop }: NavigateBarProps) {
         damping: 6, // Lực cản (giá trị càng thấp, bounce càng nhiều)
         mass: 0.4, // Khối lượng của đối tượng (khối lượng lớn hơn sẽ làm chậm chuyển động)
       }}
-      className={`glass-navbar fixed ${onTop ? "top-1" : "bottom-8"} left-1/2 z-[60] flex -translate-x-1/2 overflow-x-hidden rounded-full text-white shadow-md`}
+      className={`glass-navbar fixed block lg:hidden ${onTop ? "top-1" : "bottom-8"} left-1/2 z-[60] flex -translate-x-1/2 overflow-x-hidden rounded-full text-white shadow-md`}
     >
       <div className="relative flex items-center gap-2 py-2 pr-4 text-[14px]">
         <button
@@ -129,9 +128,26 @@ export default function NavigateBar({ onTop }: NavigateBarProps) {
           handleToggleNavbar={handleToggleNavbar}
           isHidden={isHidden}
         />
-        <TransitionLink isHidden={isHidden} href="/" label="Trang chủ" />
-        <TransitionLink isHidden={isHidden} href="/shop" label="Cửa hàng" />
-        <TransitionLink isHidden={isHidden} href="/booking" label="Đặt lịch" />
+        <TransitionLink
+          isHidden={isHidden}
+          href="/user/account"
+          label="Trang chủ"
+        />
+        <TransitionLink
+          isHidden={isHidden}
+          href="/user/service-list"
+          label="Dịch vụ"
+        />
+        <TransitionLink
+          isHidden={isHidden}
+          href="/user/order-history"
+          label="Đơn hàng"
+        />
+        <TransitionLink
+          isHidden={isHidden}
+          href="/user/change-voucher"
+          label="Đổi voucher"
+        />
       </div>
     </motion.div>
   );

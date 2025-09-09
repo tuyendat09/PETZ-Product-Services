@@ -9,7 +9,6 @@ import SuggestedProducts from "@/components/pages/Details/SuggestedProducts";
 import { useAddItemToCartMutation } from "@/libs/features/services/cart";
 import { useSession } from "next-auth/react";
 import { message } from "antd";
-import Feedback from "@/components/pages/Details/Feedback/Feedback";
 import { animatePageOut } from "@/utils/animation";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import NormalTransitionLink from "@/components/ui/NormalTransitionLink";
@@ -146,10 +145,10 @@ export const Index = () => {
               <Icon icon="ic:round-chevron-left" width="24" height="24" />
               Quay về
             </NormalTransitionLink>
-            <div className="flex flex-row items-center justify-between">
-              <div className="w-[36%]">
+            <div className="flex flex-col xl:items-center  justify-between xl:flex-row">
+              <div className="lg:w-[36%] w-full">
                 <div className="flex flex-row items-center justify-between gap-[20px]">
-                  <h1 className="text-[40px] font-black leading-[40px]">
+                  <h1 className="lg:text-[32px] text-[20px] font-black leading-[40px]">
                     {item.productName}
                   </h1>
                   {item.salePercent > 0 && (
@@ -158,7 +157,7 @@ export const Index = () => {
                     </span>
                   )}
                 </div>
-                <div className="mt-[50px] flex w-[500px] flex-row items-center justify-between rounded-[25px] bg-primary px-12 py-2 text-white">
+                <div className="mt-[50px] xl:flex hidden w-full lg:w-[350px] flex-row items-center justify-between rounded-[25px] bg-primary px-12 py-2 text-white">
                   <div className="flex flex-row items-center gap-[5px]">
                     <button onClick={() => handleQuantity("decrease")}>
                       -
@@ -194,7 +193,7 @@ export const Index = () => {
                       </button>
                     ) : (
                       <button
-                        className="cursor-none text-[14px] font-[500] tracking-[0.5px]"
+                        className="cursor-pointer text-[14px] font-[500] tracking-[0.5px]"
                         onClick={() =>
                           handleAddToCart(
                             item.productName,
@@ -209,30 +208,8 @@ export const Index = () => {
                     )}
                   </div>
                 </div>
-                <div className="mr-[70px] mt-[20px] flex flex-row items-center justify-center gap-[10px]">
-                  {item?.productOption?.map((option, i) => {
-                    return (
-                      option?.name && (
-                        <div
-                          key={i}
-                          onClick={() => {
-                            setIndex(i);
-                            setMaxQuantity(option?.productQuantity);
-                            setOption(option?.name);
-                          }}
-                        >
-                          <button
-                            className={`${index === i ? "bg-primary text-white" : ""} rounded-full border-2 border-primary px-[10px] py-[2px]`}
-                          >
-                            {option?.name}
-                          </button>
-                        </div>
-                      )
-                    );
-                  })}
-                </div>
               </div>
-              <div className="w-[38%]">
+              <div className="xl:w-[38%] w-full flex justify-center xl:block">
                 <Image
                   unoptimized
                   src={item.productThumbnail}
@@ -241,13 +218,64 @@ export const Index = () => {
                   alt=""
                 />
               </div>
-              <div className="flex w-[450px] flex-row gap-4">
-                <p className="w-[500px] font-bold">Mô tả:</p>
-                <div>{item?.productDescription}</div>
+               <div className="mt-[50px] xl:hidden flex mx-auto mb-8 w-full lg:w-[450px] flex-row items-center justify-between rounded-[25px] bg-primary px-12 py-2 text-white">
+                  <div className="flex flex-row items-center gap-[5px]">
+                    <button onClick={() => handleQuantity("decrease")}>
+                      -
+                    </button>
+                    <span className="ml-[10px] inline-block w-[20px]">
+                      {quantity}
+                    </span>
+                    <button
+                      onClick={() => {
+                        handleQuantity("increase");
+                        setMaxQuantity(
+                          item?.productOption[index]?.productQuantity,
+                        );
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="flex flex-row gap-[7px]">
+                    <p>{formatCurrency(salePrice)}</p>
+                    {item?.salePercent > 0 && (
+                      <del className="text-[15px] text-gray-400">
+                        {formatCurrency(
+                          item?.productOption[index]?.productPrice,
+                        )}
+                      </del>
+                    )}
+                  </div>
+                  <div>
+                    {item?.productOption[index]?.productQuantity === 0 ? (
+                      <button className="text-[14px] font-[500] text-primary">
+                        OUT OF STOCK
+                      </button>
+                    ) : (
+                      <button
+                        className="cursor-pointer text-[14px] font-[500] tracking-[0.5px]"
+                        onClick={() =>
+                          handleAddToCart(
+                            item.productName,
+                            item._id,
+                            item?.productOption[index]?.productPrice,
+                            item.salePercent,
+                          )
+                        }
+                      >
+                        Thêm vào giỏ
+                      </button>
+                    )}
+                  </div>
+                </div>
+              <div className="flex flex-row gap-4 xl:w-[350px]  mb-8">
+                <p className="font-bold">Mô tả:</p>
+                <div className="text-sm">{item?.productDescription}</div>
               </div>
             </div>
-            <div className="flex flex-row items-center gap-[10px]">
-              <div className="w-[35%]">
+            <div className="flex lg:flex-row flex-col items-center gap-[10px]">
+              <div className="lg:w-[35%] w-full">
                 <h1 className="mb-[30px] text-[28px] font-[600]">BỘ SƯU TẬP</h1>
                 <div className="flex flex-wrap gap-[10px]">
                   {item?.productImages.map((img, i) => {
@@ -264,7 +292,7 @@ export const Index = () => {
                   })}
                 </div>
               </div>
-              <div className="w-[30%] text-[14px]">
+              <div className="lg:w-[30%] my-8  w-full text-[14px]">
                 Thức ăn cho mèo giàu chất dinh dưỡng là sản phẩm lý tưởng giúp
                 chăm sóc sức khỏe và sự phát triển toàn diện của mèo cưng. Được
                 chế biến từ các thành phần tự nhiên chất lượng cao, sản phẩm này
@@ -284,7 +312,7 @@ export const Index = () => {
                 dài tuổi thọ và cải thiện chất lượng cuộc sống của chúng. Hãy
                 chọn sản phẩm này để chăm sóc sức khỏe cho mèo yêu của bạn!
               </div>
-              <div className="w-[35%]">
+              <div className="w-[35%] md:block hidden">
                 <Image
                   unoptimized
                   src={item.productThumbnail}
@@ -298,7 +326,7 @@ export const Index = () => {
         );
       })}
       <div id="this-zone">
-        <h1 className="text-[28px] font-[500]">SẢN PHẨM GỢI Ý</h1>
+        <h1 className="text-[28px] font-[500] mt-8">SẢN PHẨM GỢI Ý</h1>
         <div>
           <div>
             <SuggestedProducts
@@ -308,11 +336,6 @@ export const Index = () => {
         </div>
       </div>
       {contextHolder}
-      <Feedback
-        totalReview={data?.products[0]?.productRating}
-        reviewCount={data?.products[0]?.ratingCount}
-        productId={data?.products[0]?._id as any}
-      />
     </div>
   );
 };

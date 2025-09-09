@@ -57,13 +57,6 @@ export default withAuth(
       return NextResponse.redirect(new URL("/", req.url));
     }
 
-    if (
-      !session &&
-      (pathname.startsWith("/cart") || pathname.startsWith("/cart/place-order"))
-    ) {
-      return NextResponse.redirect(new URL("/auth", req.url));
-    }
-
     // Check authorization
     if (!isAuthorized(session, pathname)) {
       return NextResponse.redirect(new URL(NOT_AUTH_URL, req.url));

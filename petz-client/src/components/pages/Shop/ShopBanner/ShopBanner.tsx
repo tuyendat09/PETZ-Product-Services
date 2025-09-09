@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 export default function ShopBanner() {
   return (
     <div className="flex">
-      <div className="flex w-1/2 items-center rounded-l-[20px] bg-[#f4f2ee] p-8 text-black">
+      <div className="flex w-full items-center rounded-[20px] bg-[#fcd600] p-8 text-black lg:w-1/2 lg:rounded-l-[20px] lg:bg-[#f4f2ee]">
         <div>
           <div className="flex text-[14px]">
             <Link className="font-bold" href="/">
@@ -23,7 +23,7 @@ export default function ShopBanner() {
           </p>
         </div>
       </div>
-      <div className="h-[350px] w-1/2 rounded-r-[20px]">
+      <div className="hidden h-[350px] w-1/2 rounded-r-[20px] lg:block">
         <Image
           src={ShopImage}
           className="h-full w-full rounded-r-[20px] object-cover object-[100%_75%]"

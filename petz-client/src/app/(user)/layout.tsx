@@ -35,7 +35,7 @@ const App = async ({ children }: { children: React.ReactNode }) => {
           <main className="my-24">
             <div className="flex">
               <Sidebar />
-              <div className="mx-auto w-3/4 px-12">{children}</div>
+              <div className="mx-auto w-full px-12 lg:w-3/4">{children}</div>
             </div>
           </main>
           <Footer />

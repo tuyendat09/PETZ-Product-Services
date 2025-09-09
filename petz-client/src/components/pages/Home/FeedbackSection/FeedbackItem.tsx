@@ -14,7 +14,7 @@ export default function FeedbackItem({
       <div>{review}</div>
       <div className="mt-4">
         <h4>
-          <span className="font-bold">{name}</span> - 5 sao
+          <span className="font-bold">{name}</span> - 5/5
           <p className="text-[14px]">Ngày: {date}</p>
         </h4>
       </div>

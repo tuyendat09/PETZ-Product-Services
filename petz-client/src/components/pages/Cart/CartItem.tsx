@@ -118,16 +118,16 @@ export default function CartItem({
             height={100}
             alt=""
           />
-          <div>
+          <div className="hidden lg:block">
             <h2>{cartItem?.productName}</h2>
             <p className="text-gray-800">{cartItem.productOption}</p>
           </div>
         </Link>
       </td>
-      <td className="text-center">
+      <td className="text-center text-[12px]">
         {cartItem?.productPrice && formatMoney(salePrice)}
         {cartItem?.salePercent !== 0 && (
-          <span className="ml-1 rounded-full bg-primary px-2 py-1 text-[14px] text-white">
+          <span className="ml-1 rounded-full bg-primary px-2 py-1 text-[12px] text-white">
             {-cartItem?.salePercent}%
           </span>
         )}

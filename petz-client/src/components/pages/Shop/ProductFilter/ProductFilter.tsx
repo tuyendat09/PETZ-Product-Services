@@ -3,9 +3,8 @@ import OtherFilter from "./OtherFilter";
 
 export default function ProductFilter() {
   return (
-    <div className="w-1/2 max-w-[250px]">
+    <div className="w-full overflow-y-auto">
       <FilterCategories />
-      <OtherFilter />
     </div>
   );
 }

@@ -28,6 +28,9 @@ export default function SiteLink() {
   function handleToggleCart() {
     dispatch(cartAction.toggle());
   }
+
+  console.log(unauthenticatedCarts);
+
   return (
     <div className="fixed right-2 top-5 text-[12px] lg:right-4">
       <ul className="glass flex items-center justify-center gap-4 rounded-full px-4 py-2 text-white lg:gap-12 lg:px-8 lg:py-3 lg:text-base">

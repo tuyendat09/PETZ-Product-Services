@@ -1,7 +1,7 @@
-import NormalTransitionLink from "@/components/ui/NormalTransitionLink";
 import { useGetProductsQuery } from "@/libs/features/services/product";
-import Image from "next/image";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import ProductBox from "@/components/ui/ProductCard/ProductCard";
+import "swiper/css";
 export default function SuggestedProducts({
   categoryId,
 }: {
@@ -15,28 +15,25 @@ export default function SuggestedProducts({
     return `${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`;
   };
   return (
-    <div>
-      <div className="flex flex-row justify-between">
-        {data?.products.slice(0, 4).map((item: any, i: number) => {
-          return (
-            <div key={item._id}>
-              <NormalTransitionLink href={`/shop/${item.productSlug}`}>
-                <Image
-                  unoptimized
-                  src={item.productThumbnail}
-                  width={300}
-                  height={300}
-                  alt=""
-                />
-                <div className="flex flex-col items-center justify-center">
-                  <h2>{item?.productName}</h2>
-                  <p>{formatCurrency(item?.productOption[0].productPrice)}</p>
-                </div>
-              </NormalTransitionLink>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+   <Swiper
+        className="relative z-50"
+       
+        pagination={{
+          clickable: true,
+        }}
+        loop={true}
+        breakpoints={{
+          375: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1280: { slidesPerView: 3 },
+        }}
+      >
+
+        {data?.products?.map((product) => (
+          <SwiperSlide className="relative z-50  " key={product._id}>
+            <ProductBox Product={product}  />
+          </SwiperSlide>
+        ))}
+      </Swiper>
   );
 }

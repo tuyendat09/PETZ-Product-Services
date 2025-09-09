@@ -16,6 +16,7 @@ import formatDiscount from "@/utils/formatDiscount";
 import { successModal } from "@/utils/callModalANTD";
 import Image from "next/image";
 import Link from "next/link";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 interface ModalAddProps {
   isDialogOpen: boolean;
@@ -32,10 +33,9 @@ export default function VoucherModal({
 }: ModalAddProps) {
   const { data: session } = useSession();
 
-  const { data: voucher } = useGetVouchersHeldQuery({
-    userId: session?.user._id,
-    limit: 100,
-  });
+  const { data: voucher } = useGetVouchersHeldQuery(
+    session?.user._id ? { userId: session.user._id, limit: 100 } : skipToken,
+  );
 
   const [selectedVoucher, setSelectedVoucher] = useState<string | null>(null);
   const [selectedVoucherType, setSelectedVoucherType] = useState<string | null>(
@@ -70,6 +70,7 @@ export default function VoucherModal({
 
   return (
     <Modal
+      placement="center"
       size="lg"
       backdrop="blur"
       onClose={handleCloseDialog}
@@ -86,6 +87,8 @@ export default function VoucherModal({
               Áp dụng mã khuyến mãi
             </ModalHeader>
             <ModalBody className="max-h-[500px] overflow-y-auto">
+              {!session?.user &&
+                "Bạn phải đăng nhập mới có thể sử dụng Voucher"}
               {voucher?.vouchers.length == 0 && (
                 <div className="flex flex-col items-center justify-center">
                   <div className="w-1/2">

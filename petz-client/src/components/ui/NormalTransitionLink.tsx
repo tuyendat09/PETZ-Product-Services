@@ -26,7 +26,7 @@ export default function NormalTransitionLink({
     <div>
       <div
         onClick={handleClick}
-        className={`w-fit cursor-pointer ${className}`}
+        className={`w-fit max-w-[400px] cursor-pointer ${className}`}
       >
         {children}
       </div>

@@ -12,7 +12,7 @@ export default function Shop() {
       <div className="container my-[100px]">
         <ShopBanner />
         <ShopProvider>
-          <div className="mt-8 flex gap-12">
+          <div className="mt-8">
             <ProductFilter />
             <ProductList />
           </div>
